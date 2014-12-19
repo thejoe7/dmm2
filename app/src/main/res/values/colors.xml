@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- main colors (red palette) -->
+    <color name="dmm_primary">#fff44336</color>
+    <color name="dmm_primary_light">#ffffcdd2</color>
+    <color name="dmm_primary_dark">#ffd32f2f</color>
+
+    <!-- accent colors (blue palette) -->
+    <color name="dmm_accent">#ff448aff</color>
+    <color name="dmm_accent_light">#ff82b1ff</color>
+    <color name="dmm_accent_dark">#ff2979ff</color>
+
+    <!-- text colors -->
+    <color name="text_dark_primary">#ff000000</color>
+    <color name="text_dark_secondary">#36000000</color>
+    <color name="text_dark_hint">#1a000000</color>
+    <color name="text_dark_divider">#0c000000</color>
+    <color name="text_light_primary">#ffffffff</color>
+    <color name="text_light_secondary">#b3ffffff</color>
+    <color name="text_light_hint">#4dffffff</color>
+    <color name="text_light_divider">#0cffffff</color>
+</resources>
