@@ -15,7 +15,7 @@
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
 
-    <style name="Widget.DmmTheme.Toolbar" parent="android:Widget.Material.ActionBar">
+    <style name="Widget.DmmTheme.Toolbar" parent="android:Widget.Material.Toolbar">
         <item name="android:background">?android:attr/colorPrimary</item>
         <item name="android:theme">@style/ThemeOverlay.DmmTheme.Toolbar</item>
         <item name="android:popupTheme">@style/ThemeOverlay.DmmTheme.Toolbar</item>
