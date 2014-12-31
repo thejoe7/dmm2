@@ -18,11 +18,17 @@
     <style name="Widget.DmmTheme.Toolbar" parent="android:Widget.Material.Toolbar">
         <item name="android:background">?android:attr/colorPrimary</item>
         <item name="android:theme">@style/ThemeOverlay.DmmTheme.Toolbar</item>
-        <item name="android:popupTheme">@style/ThemeOverlay.DmmTheme.Toolbar</item>
+        <item name="android:popupTheme">@style/ThemeOverlay.DmmTheme.Toolbar.Popup</item>
     </style>
 
     <style name="ThemeOverlay.DmmTheme.Toolbar" parent="android:ThemeOverlay.Material.ActionBar">
         <item name="android:textColorPrimary">@color/text_light_primary</item>
+        <item name="android:textColorSecondary">@color/text_light_secondary</item>
+    </style>
+
+    <style name="ThemeOverlay.DmmTheme.Toolbar.Popup" parent="android:ThemeOverlay.Material.ActionBar">
+        <item name="android:textColorPrimary">@color/text_dark_primary</item>
+        <item name="android:textColorSecondary">@color/text_dark_secondary</item>
     </style>
 
 </resources>

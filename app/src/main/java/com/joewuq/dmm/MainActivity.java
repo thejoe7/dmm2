@@ -4,12 +4,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import it.neokree.materialtabs.MaterialTabHost;
+
 
 public class MainActivity extends ToolbarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MaterialTabHost tabHost = (MaterialTabHost) this.findViewById(R.id.th_icons);
+        tabHost.addTab(tabHost.newTab().setIcon(getResources().getDrawable(R.drawable.ic_notifications_on_white_24dp)));
+        tabHost.addTab(tabHost.newTab().setIcon(getResources().getDrawable(R.drawable.ic_notifications_off_white_24dp)));
     }
 
     @Override
@@ -17,7 +23,7 @@ public class MainActivity extends ToolbarActivity {
         return R.layout.activity_main;
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -37,5 +43,5 @@ public class MainActivity extends ToolbarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }

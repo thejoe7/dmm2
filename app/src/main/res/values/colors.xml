@@ -19,4 +19,8 @@
     <color name="text_light_secondary">#b3ffffff</color>
     <color name="text_light_hint">#4dffffff</color>
     <color name="text_light_divider">#0cffffff</color>
+
+    <!-- other colors -->
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
 </resources>
