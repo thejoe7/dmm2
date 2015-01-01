@@ -122,9 +122,9 @@ public class MainActivity extends ToolbarActivity implements MaterialTabListener
         public Drawable getPageIcon(int position) {
             switch (position) {
                 case 0:
-                    return getResources().getDrawable(R.drawable.ic_notifications_on_white_24dp);
+                    return getResources().getDrawable(R.drawable.ic_today_white_24dp);
                 case 1:
-                    return getResources().getDrawable(R.drawable.ic_notifications_off_white_24dp);
+                    return getResources().getDrawable(R.drawable.ic_archive_white_24dp);
                 default:
                     return null;
             }

@@ -41,7 +41,7 @@
                 android:layout_centerVertical="true"
                 app:iconColor="@color/white"
                 app:primaryColor="@color/dmm_primary"
-                app:accentColor="@color/dmm_primary_dark"
+                app:accentColor="@color/white"
                 app:hasIcons="true" />
 
         </RelativeLayout>
