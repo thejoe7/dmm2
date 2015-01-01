@@ -1,10 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="DmmTheme.Base" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="DmmTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorPrimary">@color/dmm_primary</item>
         <item name="android:colorPrimaryDark">@color/dmm_primary_dark</item>
         <item name="android:colorAccent">@color/dmm_accent</item>
+
+        <item name="android:windowActionModeOverlay">true</item>
     </style>
 
     <style name="DmmTheme" parent="DmmTheme.Base">
@@ -15,20 +17,12 @@
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
 
-    <style name="Widget.DmmTheme.Toolbar" parent="android:Widget.Material.Toolbar">
-        <item name="android:background">?android:attr/colorPrimary</item>
-        <item name="android:theme">@style/ThemeOverlay.DmmTheme.Toolbar</item>
-        <item name="android:popupTheme">@style/ThemeOverlay.DmmTheme.Toolbar.Popup</item>
+    <style name="ThemeOverlay.DmmTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--<item name="android:background">@color/dmm_primary</item>-->
     </style>
 
-    <style name="ThemeOverlay.DmmTheme.Toolbar" parent="android:ThemeOverlay.Material.ActionBar">
-        <item name="android:textColorPrimary">@color/text_light_primary</item>
-        <item name="android:textColorSecondary">@color/text_light_secondary</item>
-    </style>
-
-    <style name="ThemeOverlay.DmmTheme.Toolbar.Popup" parent="android:ThemeOverlay.Material.ActionBar">
-        <item name="android:textColorPrimary">@color/text_dark_primary</item>
-        <item name="android:textColorSecondary">@color/text_dark_secondary</item>
+    <style name="ThemeOverlay.DmmTheme.Toolbar.Popup" parent="ThemeOverlay.AppCompat.Light">
+        <!--<item name="android:background">@color/white</item>-->
     </style>
 
 </resources>

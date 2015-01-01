@@ -1,13 +1,13 @@
 package com.joewuq.dmm;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Toolbar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 
 /**
  * Created by joew on 12/18/14.
  */
-public abstract class ToolbarActivity extends Activity {
+public abstract class ToolbarActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public abstract class ToolbarActivity extends Activity {
         setContentView(getLayoutResourceId());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
-            setActionBar(toolbar);
+            setSupportActionBar(toolbar);
         }
     }
 
