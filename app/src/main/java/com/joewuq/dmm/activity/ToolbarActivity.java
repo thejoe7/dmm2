@@ -1,8 +1,10 @@
-package com.joewuq.dmm;
+package com.joewuq.dmm.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.joewuq.dmm.R;
 
 /**
  * Created by joew on 12/18/14.

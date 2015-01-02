@@ -1,4 +1,4 @@
-package com.joewuq.dmm;
+package com.joewuq.dmm.activity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.joewuq.dmm.fragment.CountdownFragment;
+import com.joewuq.dmm.R;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;

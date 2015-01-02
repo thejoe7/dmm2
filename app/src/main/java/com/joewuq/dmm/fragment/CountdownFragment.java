@@ -1,4 +1,4 @@
-package com.joewuq.dmm;
+package com.joewuq.dmm.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
