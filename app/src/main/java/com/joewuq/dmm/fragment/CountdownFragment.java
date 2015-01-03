@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * Created by joew on 12/30/14.
+ * Created by Joe Wu on 12/30/14.
  */
 public class CountdownFragment extends Fragment {
 
