@@ -67,32 +67,36 @@ public class CountdownModel {
         return title;
     }
 
-    public void setTitle(String title) {
+    public CountdownModel setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public CountdownModel setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public ThemeColor getThemeColor() {
         return themeColor;
     }
 
-    public void setThemeColor(ThemeColor themeColor) {
+    public CountdownModel setThemeColor(ThemeColor themeColor) {
         this.themeColor = themeColor;
+        return this;
     }
 
     public DateTime getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public CountdownModel setDate(DateTime date) {
         this.date = date;
+        return this;
     }
 
     public RepeatMode getRepeatMode() {
@@ -103,13 +107,14 @@ public class CountdownModel {
         return repeatInterval;
     }
 
-    public void setRepeatMode(RepeatMode repeatMode) {
-        setRepeatMode(repeatMode, -1);
+    public CountdownModel setRepeatMode(RepeatMode repeatMode) {
+        return setRepeatMode(repeatMode, -1);
     }
 
-    public void setRepeatMode(RepeatMode repeatMode, int repeatInterval) {
+    public CountdownModel setRepeatMode(RepeatMode repeatMode, int repeatInterval) {
         this.repeatMode = repeatMode;
         this.repeatInterval = repeatInterval;
+        return this;
     }
 
     public DateTime getNextDate() {
