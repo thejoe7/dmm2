@@ -129,7 +129,6 @@ public class CountdownModel {
                     nextDate = nextDate.plusYears(1);
                 }
             } else {
-                // TODO: handle custom repeating interval
                 if (repeatInterval <= 0) {
                     Log.w(TAG, String.format("getNextDate() with invalid repeatInterval (%d)", repeatInterval));
                     nextDate = date;
