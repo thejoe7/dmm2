@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.joewuq.dmm.CountdownModel;
 import com.joewuq.dmm.R;
-import com.joewuq.dmm.utility.ThemeColor;
 import com.joewuq.dmm.utility.Utility;
 
 import org.joda.time.DateTime;
@@ -26,6 +25,7 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        int position;
         CardView cardView;
         ViewGroup content;
         ImageView imageBackground;
@@ -37,6 +37,7 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
 
         public ViewHolder(View itemView) {
             super(itemView);
+            position = -1;
             cardView = (CardView) itemView;
             content = (ViewGroup) itemView.findViewById(R.id.ll_card_content);
             imageBackground = (ImageView) itemView.findViewById(R.id.iv_card_bg);
@@ -48,8 +49,18 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
         }
     }
 
+    public interface OnItemClickListener {
+        public void onItemClick(View view, int position);
+    }
+
+    private OnItemClickListener onItemClickListener;
+
     public CountdownCardAdapter(Context context) {
         super(context);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        onItemClickListener = listener;
     }
 
     @Override
@@ -59,10 +70,18 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         CountdownModel model = getItem(position);
         int color = context.getResources().getColor(Utility.getThemeColorResourceId(model.getThemeColor()));
         holder.cardView.setCardBackgroundColor(color);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(holder.cardView, position);
+                }
+            }
+        });
 
         // disable background image and darkening for now
         holder.imageBackground.setImageResource(0);
@@ -99,4 +118,5 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
             }
         });
     }
+
 }
