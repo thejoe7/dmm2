@@ -1,5 +1,7 @@
 package com.joewuq.dmm.activity;
 
+import android.app.ActivityManager;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,13 @@ public class MainActivity extends ToolbarActivity implements MaterialTabListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // setup visual effects in Overview/Recent screen
+        setTaskDescription(new ActivityManager.TaskDescription(
+                getResources().getString(R.string.app_name),
+                BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_mono),
+                getResources().getColor(R.color.dmm_primary)
+        ));
 
         toolbarTitle = (TextView) findViewById(R.id.tv_toolbar_title);
 
