@@ -13,9 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.joewuq.dmm.CountdownModel;
 import com.joewuq.dmm.DividerItemDecoration;
 import com.joewuq.dmm.R;
 import com.joewuq.dmm.adapter.CountdownCardAdapter;
+import com.joewuq.dmm.utility.ThemeColor;
+
+import org.joda.time.DateTime;
 
 /**
  * Created by Joe Wu on 12/30/14.
@@ -36,6 +40,9 @@ public class CountdownFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         cardAdapter = new CountdownCardAdapter(getActivity());
+        for (ThemeColor c : ThemeColor.values()) {
+            cardAdapter.add(new CountdownModel().setTitle("Christmas Day").setDate(new DateTime(2015, 12, 25, 0, 0)).setDescription("Merry Christmas to You!").setThemeColor(c));
+        }
         recyclerView.setAdapter(cardAdapter);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {

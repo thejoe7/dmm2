@@ -16,12 +16,13 @@ import com.joewuq.dmm.utility.Utility;
 
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Joe Wu on 1/10/15.
  */
-public class CountdownCardAdapter extends RecyclerView.Adapter<CountdownCardAdapter.ViewHolder> {
+public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownCardAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -47,16 +48,8 @@ public class CountdownCardAdapter extends RecyclerView.Adapter<CountdownCardAdap
         }
     }
 
-    private Context context;
-    private ArrayList<CountdownModel> models;
-
     public CountdownCardAdapter(Context context) {
-        super();
-        this.context = context;
-        models = new ArrayList<CountdownModel>();
-        for (ThemeColor c : ThemeColor.values()) {
-            models.add(new CountdownModel().setTitle("Christmas Day").setDate(new DateTime(2015, 12, 25, 0, 0)).setDescription("Merry Christmas to You!").setThemeColor(c));
-        }
+        super(context);
     }
 
     @Override
@@ -67,7 +60,7 @@ public class CountdownCardAdapter extends RecyclerView.Adapter<CountdownCardAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        CountdownModel model = models.get(position);
+        CountdownModel model = getItem(position);
         int color = context.getResources().getColor(Utility.getThemeColorResourceId(model.getThemeColor()));
         holder.cardView.setCardBackgroundColor(color);
 
@@ -98,7 +91,12 @@ public class CountdownCardAdapter extends RecyclerView.Adapter<CountdownCardAdap
     }
 
     @Override
-    public int getItemCount() {
-        return models.size();
+    protected void sortObjects() {
+        Collections.sort(objects, new Comparator<CountdownModel>() {
+            @Override
+            public int compare(CountdownModel lhs, CountdownModel rhs) {
+                return lhs.getNextDate().compareTo(rhs.getNextDate());
+            }
+        });
     }
 }
