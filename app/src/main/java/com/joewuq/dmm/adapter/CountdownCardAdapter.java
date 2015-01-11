@@ -25,7 +25,6 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        int position;
         CardView cardView;
         ViewGroup content;
         ImageView imageBackground;
@@ -37,7 +36,6 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
 
         public ViewHolder(View itemView) {
             super(itemView);
-            position = -1;
             cardView = (CardView) itemView;
             content = (ViewGroup) itemView.findViewById(R.id.ll_card_content);
             imageBackground = (ImageView) itemView.findViewById(R.id.iv_card_bg);
