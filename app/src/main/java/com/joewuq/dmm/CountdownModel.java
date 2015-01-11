@@ -3,6 +3,7 @@ package com.joewuq.dmm;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
+import com.joewuq.dmm.utility.ThemeColor;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -23,21 +24,6 @@ public class CountdownModel {
         @SerializedName("2")
         YEARLY,
         @SerializedName("3")
-        CUSTOM
-    }
-
-    public enum ThemeColor {
-        @SerializedName("0")
-        RED,
-        @SerializedName("1")
-        YELLOW,
-        @SerializedName("2")
-        GREEN,
-        @SerializedName("3")
-        BLUE,
-        @SerializedName("4")
-        PURPLE,
-        @SerializedName("5")
         CUSTOM
     }
 
@@ -73,7 +59,11 @@ public class CountdownModel {
     }
 
     public String getDescription() {
-        return description;
+        if (description != null) {
+            return description;
+        } else {
+            return "";
+        }
     }
 
     public CountdownModel setDescription(String description) {

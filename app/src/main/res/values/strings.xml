@@ -8,4 +8,13 @@
 
     <string name="toolbar_title_countdown">Countdown</string>
     <string name="toolbar_title_archive">Archive</string>
+
+    <string name="button_edit">Edit</string>
+    <string name="button_delete">Delete</string>
+
+    <string name="card_days_left">days left until</string>
+    <string name="card_days_past">days passed since</string>
+
+    <string name="placeholder_christmas_title">Christmas</string>
+    <string name="placeholder_christmas_description">Wish you a merry Christmas!</string>
 </resources>

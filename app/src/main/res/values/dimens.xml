@@ -5,4 +5,13 @@
 
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="toolbar_title_font_size">20sp</dimen>
+
+    <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="card_padding">8dp</dimen>
+    <dimen name="card_compat_margin_horizontal">4dp</dimen>
+    <dimen name="card_compat_margin_vertical">1dp</dimen>
+    <dimen name="card_gutter">8dp</dimen>
+    <dimen name="card_content_padding">16dp</dimen>
+
+    <dimen name="card_min_height_with_image">256dp</dimen>
 </resources>
