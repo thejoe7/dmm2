@@ -17,4 +17,7 @@
     <dimen name="card_elevation">2dp</dimen>
 
     <dimen name="card_min_height_with_image">256dp</dimen>
+
+    <dimen name="button_elevation_normal">2dp</dimen>
+    <dimen name="button_elevation_lifted">4dp</dimen>
 </resources>

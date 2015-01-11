@@ -16,6 +16,7 @@ import com.joewuq.dmm.R;
 import com.joewuq.dmm.CountdownModel;
 import com.joewuq.dmm.adapter.CountdownCardAdapter;
 import com.joewuq.dmm.utility.ThemeColor;
+import com.melnykov.fab.FloatingActionButton;
 
 import org.joda.time.DateTime;
 
@@ -62,11 +63,24 @@ public class CountdownFragment extends Fragment implements CountdownCardAdapter.
             }
         });
 
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.attachToRecyclerView(recyclerView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCountdownActivity(null);
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onItemClick(View view, int position) {
+        showCountdownActivity(cardAdapter.getItem(position));
+    }
+
+    private void showCountdownActivity(CountdownModel model) {
 
     }
 }
