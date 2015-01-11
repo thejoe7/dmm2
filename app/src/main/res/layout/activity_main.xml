@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:title="@string/app_name"
-        android:elevation="4dp"
+        android:elevation="@dimen/toolbar_elevation_normal"
         android:background="@color/dmm_primary"
         app:theme="@style/ThemeOverlay.DmmTheme.Toolbar"
         app:popupTheme="@style/ThemeOverlay.DmmTheme.Toolbar.Popup">
