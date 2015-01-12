@@ -31,7 +31,34 @@ public class Utility {
             case ORANGE:
                 return R.color.theme_orange;
             default:
-                return 0;
+                return R.color.theme_default;
+        }
+    }
+
+    public static int getThemeDarkColorResourceId(ThemeColor themeColor) {
+        switch (themeColor) {
+            case RED:
+                return R.color.theme_red_dark;
+            case PINK:
+                return R.color.theme_pink_dark;
+            case PURPLE:
+                return R.color.theme_purple_dark;
+            case INDIGO:
+                return R.color.theme_indigo_dark;
+            case BLUE:
+                return R.color.theme_blue_dark;
+            case CYAN:
+                return R.color.theme_cyan_dark;
+            case TEAL:
+                return R.color.theme_teal_dark;
+            case GREEN:
+                return R.color.theme_green_dark;
+            case YELLOW:
+                return R.color.theme_yellow_dark;
+            case ORANGE:
+                return R.color.theme_orange_dark;
+            default:
+                return R.color.theme_default_dark;
         }
     }
 }

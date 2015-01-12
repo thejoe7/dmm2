@@ -1,6 +1,7 @@
 package com.joewuq.dmm.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
+        ImageView notificationIcon;
+        ImageView repeatIcon;
         ViewGroup content;
         ImageView imageBackground;
         TextView titleText;
@@ -37,6 +40,8 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
         public ViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView;
+            notificationIcon = (ImageView) itemView.findViewById(R.id.iv_card_icon_notification);
+            repeatIcon = (ImageView) itemView.findViewById(R.id.iv_card_icon_repeat);
             content = (ViewGroup) itemView.findViewById(R.id.ll_card_content);
             imageBackground = (ImageView) itemView.findViewById(R.id.iv_card_bg);
             titleText = (TextView) itemView.findViewById(R.id.tv_card_title);
@@ -71,6 +76,7 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         CountdownModel model = getItem(position);
         int color = context.getResources().getColor(Utility.getThemeColorResourceId(model.getThemeColor()));
+        int colorDark = context.getResources().getColor(Utility.getThemeDarkColorResourceId(model.getThemeColor()));
         holder.cardView.setCardBackgroundColor(color);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +92,23 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
         holder.imageBackground.setVisibility(View.GONE);
         holder.content.setBackgroundColor(context.getResources().getColor(R.color.transparent));
 
-        // set up subviews
+        // icon colors
+        ColorStateList disabledStateList = new ColorStateList(new int[][] {new int[] {}}, new int[] {colorDark});
+        ColorStateList enabledStateList = new ColorStateList(new int[][] {new int[] {}}, new int[] {context.getResources().getColor(R.color.text_light_secondary)});
+
+        // always hide notification icon for now
+        holder.notificationIcon.setImageTintList(disabledStateList);
+        holder.notificationIcon.setVisibility(View.GONE);
+
+        if (model.getRepeatMode() == CountdownModel.RepeatMode.NONE) {
+            holder.repeatIcon.setImageResource(R.drawable.ic_repeat_off_white_18dp);
+            holder.repeatIcon.setImageTintList(disabledStateList);
+        } else {
+            holder.repeatIcon.setImageResource(R.drawable.ic_repeat_on_white_18dp);
+            holder.repeatIcon.setImageTintList(enabledStateList);
+        }
+
+        // setup texts
         DateTime nextDate = model.getNextDate();
         Integer daysDiff = model.getDaysDiff(DateTime.now().withTime(0, 0, 0, 0));
 
