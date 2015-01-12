@@ -108,38 +108,56 @@ public class DetailActivity extends ToolbarActivity {
     }
 
     private void saveAndExit() {
-        finish();
+        // TODO: save countdown model
+        ActivityManager.AppTask task = getRunningTask(this, model.getUuid());
+        if (task != null) {
+            task.finishAndRemoveTask();
+        } else {
+            finish();
+        }
     }
 
     private void deleteAndExit() {
-        finish();
+        // TODO: delete countdown model
+        ActivityManager.AppTask task = getRunningTask(this, model.getUuid());
+        if (task != null) {
+            task.finishAndRemoveTask();
+        } else {
+            finish();
+        }
     }
 
     public static void startActivity(Context context, CountdownModel model) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // no document-centric activity management for pre-lollipop
-            startNewActivity(context, model);
+        String uuid = model == null ? null : model.getUuid();
+        // start a new activity only when the task with this uuid does not exist
+        ActivityManager.AppTask task = getRunningTask(context, uuid);
+        if (task != null) {
+            task.moveToFront();
         } else {
-            // start a new activity only when the task with this uuid does not exist
-            ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            for (ActivityManager.AppTask task : manager.getAppTasks()) {
-                String uuid = task.getTaskInfo().baseIntent.getStringExtra(EXTRA_COUNTDOWN_UUID);
-                if (model.getUuid().equals(uuid)) {
-                    task.moveToFront();
-                    return;
-                }
+            Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
+            if (model != null) {
+                intent.putExtra(EXTRA_COUNTDOWN_UUID, model.getUuid());
+                intent.putExtra(EXTRA_COUNTDOWN_MODEL, SerializationManager.getInstance().serialize(model));
             }
-            startNewActivity(context, model);
+            context.startActivity(intent);
         }
     }
 
-    private static void startNewActivity(Context context, CountdownModel model) {
-        Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
-        if (model != null) {
-            intent.putExtra(EXTRA_COUNTDOWN_UUID, model.getUuid());
-            intent.putExtra(EXTRA_COUNTDOWN_MODEL, SerializationManager.getInstance().serialize(model));
+    private static ActivityManager.AppTask getRunningTask(Context context, String uuid) {
+        if (uuid == null || uuid.equals("") || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // no document-centric activity management for pre-lollipop
+            return null;
+        } else {
+            // find the task by the uuid in its intent
+            ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            for (ActivityManager.AppTask task : manager.getAppTasks()) {
+                String taskUuid = task.getTaskInfo().baseIntent.getStringExtra(EXTRA_COUNTDOWN_UUID);
+                if (uuid.equals(taskUuid)) {
+                    return task;
+                }
+            }
+            return null;
         }
-        context.startActivity(intent);
     }
 
 }
