@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
  */
 public class CountdownFragment extends RecyclerListFragment implements CountdownCardAdapter.OnItemClickListener {
 
-    public final static String TAG = CountdownFragment.class.getName();
+    public static final String TAG = CountdownFragment.class.getName();
 
     private CountdownCardAdapter cardAdapter;
     private FloatingActionButton fab;

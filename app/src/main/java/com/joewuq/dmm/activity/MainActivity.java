@@ -24,7 +24,9 @@ import it.neokree.materialtabs.MaterialTabListener;
 
 public class MainActivity extends ToolbarActivity implements MaterialTabListener {
 
-    public final static String TAG = MainActivity.class.getName();
+    public static final String TAG = MainActivity.class.getName();
+
+    private static final String STATE_VIEW_PAGER_POSITION = "VIEW_PAGER_POSITION";
 
     private TextView toolbarTitle;
     private ViewPager viewPager;
@@ -61,6 +63,18 @@ public class MainActivity extends ToolbarActivity implements MaterialTabListener
         for (int i = 0; i < viewPagerAdapter.getCount(); i ++) {
             tabHost.addTab(tabHost.newTab().setIcon(viewPagerAdapter.getPageIcon(i)).setTabListener(this));
         }
+
+        // restore activity saved state
+        if (savedInstanceState != null) {
+            int viewPagerPosition = savedInstanceState.getInt(STATE_VIEW_PAGER_POSITION, 0);
+            viewPager.setCurrentItem(viewPagerPosition, true);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_VIEW_PAGER_POSITION, viewPager.getCurrentItem());
     }
 
     @Override

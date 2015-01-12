@@ -19,7 +19,7 @@ import com.joewuq.dmm.R;
  */
 public abstract class RecyclerListFragment extends Fragment {
 
-    public final static String TAG = RecyclerListFragment.class.getName();
+    public static final String TAG = RecyclerListFragment.class.getName();
 
     protected RecyclerView recyclerListView;
 

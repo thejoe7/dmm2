@@ -18,7 +18,7 @@ import org.joda.time.DateTime;
  */
 public class ArchiveFragment extends RecyclerListFragment implements CountdownCardAdapter.OnItemClickListener {
 
-    public final static String TAG = ArchiveFragment.class.getName();
+    public static final String TAG = ArchiveFragment.class.getName();
 
     private CountdownCardAdapter cardAdapter;
 
