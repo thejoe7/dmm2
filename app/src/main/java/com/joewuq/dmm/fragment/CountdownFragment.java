@@ -30,6 +30,7 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
     private CountdownCardAdapter cardAdapter;
     private FloatingActionButton fab;
     private int fabScrollThreshold;
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 

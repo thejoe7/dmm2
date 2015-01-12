@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.joewuq.dmm.fragment.ArchiveFragment;
 import com.joewuq.dmm.fragment.CountdownFragment;
 import com.joewuq.dmm.R;
 
@@ -21,6 +23,8 @@ import it.neokree.materialtabs.MaterialTabListener;
 
 
 public class MainActivity extends ToolbarActivity implements MaterialTabListener {
+
+    public final static String TAG = MainActivity.class.getName();
 
     private TextView toolbarTitle;
     private ViewPager viewPager;
@@ -111,7 +115,15 @@ public class MainActivity extends ToolbarActivity implements MaterialTabListener
 
         @Override
         public Fragment getItem(int position) {
-            return new CountdownFragment();
+            switch (position) {
+                case 0:
+                    return new CountdownFragment();
+                case 1:
+                    return new ArchiveFragment();
+                default:
+                    Log.w(TAG, "MainViewPagerAdapter getItem() with invalid postion " + position + ".");
+                    return new CountdownFragment();
+            }
         }
 
         @Override
