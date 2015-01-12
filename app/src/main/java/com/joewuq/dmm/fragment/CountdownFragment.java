@@ -1,15 +1,8 @@
 package com.joewuq.dmm.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +23,6 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
 
     public static final String TAG = CountdownFragment.class.getName();
 
-    private static final int REQUEST_SHOW_COUNTDOWN_DETAIL = 100;
-
     private CountdownCardAdapter cardAdapter;
     private FloatingActionButton fab;
     private int fabScrollThreshold;
@@ -51,7 +42,7 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailActivity.startActivityForResult(getActivity(), REQUEST_SHOW_COUNTDOWN_DETAIL, null);
+                DetailActivity.startActivity(getActivity(), null);
             }
         });
 
@@ -78,23 +69,23 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
 
     @Override
     public void onItemClick(View view, int position) {
-        DetailActivity.startActivityForResult(getActivity(), REQUEST_SHOW_COUNTDOWN_DETAIL, cardAdapter.getItem(position));
+        DetailActivity.startActivity(getActivity(), cardAdapter.getItem(position));
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_SHOW_COUNTDOWN_DETAIL:
-                if (resultCode == Activity.RESULT_OK) {
-                    String uuid = data.getStringExtra(DetailActivity.EXTRA_COUNTDOWN_UUID);
-                    boolean deleted = data.getBooleanExtra(DetailActivity.EXTRA_COUNTDOWN_DELETED, true);
-                    if (deleted) {
-                        cardAdapter.remove(uuid);
-                    } else {
-                        cardAdapter.refresh(uuid);
-                    }
-                }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        switch (requestCode) {
+//            case REQUEST_SHOW_COUNTDOWN_DETAIL:
+//                if (resultCode == Activity.RESULT_OK) {
+//                    String uuid = data.getStringExtra(DetailActivity.EXTRA_COUNTDOWN_UUID);
+//                    boolean deleted = data.getBooleanExtra(DetailActivity.EXTRA_COUNTDOWN_DELETED, true);
+//                    if (deleted) {
+//                        cardAdapter.remove(uuid);
+//                    } else {
+//                        cardAdapter.refresh(uuid);
+//                    }
+//                }
+//        }
+//    }
 }

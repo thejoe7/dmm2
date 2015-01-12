@@ -37,7 +37,6 @@
             android:id="@+id/tv_card_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:text="@string/placeholder_christmas_title"
             android:singleLine="true"
             android:textColor="@color/text_light_primary"
