@@ -12,7 +12,7 @@
         android:layout_height="@dimen/toolbar_height"
         android:title="@string/app_name"
         android:elevation="@dimen/toolbar_elevation_normal"
-        android:background="@color/dmm_primary"
+        android:background="?android:attr/colorPrimary"
         app:theme="@style/ThemeOverlay.DmmTheme.Toolbar"
         app:popupTheme="@style/ThemeOverlay.DmmTheme.Toolbar.Popup">
 
@@ -40,7 +40,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 app:iconColor="@color/white"
-                app:primaryColor="@color/dmm_primary"
+                app:primaryColor="?android:attr/colorPrimary"
                 app:accentColor="@color/text_light_secondary"
                 app:hasIcons="true" />
 

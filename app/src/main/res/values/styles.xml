@@ -25,4 +25,63 @@
         <!--<item name="android:background">@color/white</item>-->
     </style>
 
+
+
+    <!-- Theme for ThemeColors -->
+    <style name="DmmTheme.Red" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_red</item>
+        <item name="android:colorPrimaryDark">@color/theme_red_dark</item>
+    </style>
+
+    <style name="DmmTheme.Pink" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_pink</item>
+        <item name="android:colorPrimaryDark">@color/theme_pink_dark</item>
+    </style>
+
+    <style name="DmmTheme.Purple" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_purple</item>
+        <item name="android:colorPrimaryDark">@color/theme_purple_dark</item>
+    </style>
+
+    <style name="DmmTheme.Indigo" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_indigo</item>
+        <item name="android:colorPrimaryDark">@color/theme_indigo_dark</item>
+    </style>
+
+    <style name="DmmTheme.Blue" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_blue</item>
+        <item name="android:colorPrimaryDark">@color/theme_blue_dark</item>
+    </style>
+
+    <style name="DmmTheme.Cyan" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_cyan</item>
+        <item name="android:colorPrimaryDark">@color/theme_cyan_dark</item>
+    </style>
+
+    <style name="DmmTheme.Teal" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_teal</item>
+        <item name="android:colorPrimaryDark">@color/theme_teal_dark</item>
+    </style>
+
+    <style name="DmmTheme.Green" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_green</item>
+        <item name="android:colorPrimaryDark">@color/theme_green_dark</item>
+    </style>
+
+    <style name="DmmTheme.Yellow" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_yellow</item>
+        <item name="android:colorPrimaryDark">@color/theme_yellow_dark</item>
+    </style>
+
+    <style name="DmmTheme.Orange" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_orange</item>
+        <item name="android:colorPrimaryDark">@color/theme_orange_dark</item>
+    </style>
+
+    <style name="DmmTheme.Default" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_default</item>
+        <item name="android:colorPrimaryDark">@color/theme_default_dark</item>
+    </style>
+
+
 </resources>

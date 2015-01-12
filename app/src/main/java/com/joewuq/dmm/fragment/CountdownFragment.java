@@ -11,6 +11,7 @@ import com.joewuq.dmm.R;
 import com.joewuq.dmm.CountdownModel;
 import com.joewuq.dmm.activity.DetailActivity;
 import com.joewuq.dmm.adapter.CountdownCardAdapter;
+import com.joewuq.dmm.manager.PreferencesManager;
 import com.joewuq.dmm.utility.ThemeColor;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -32,9 +33,9 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
 
         cardAdapter = new CountdownCardAdapter(getActivity());
         cardAdapter.setOnItemClickListener(this);
-        for (ThemeColor c : ThemeColor.values()) {
-            cardAdapter.add(new CountdownModel().setTitle("Christmas Day").setDate(new DateTime(2015, 12, 25, 0, 0)).setDescription("Merry Christmas to You!").setThemeColor(c));
-        }
+
+        cardAdapter.addObjects(PreferencesManager.getInstance().loadAllCountdownModels(getActivity()));
+
         recyclerListView.setAdapter(cardAdapter);
 
         fabScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold) * 2;
@@ -88,4 +89,13 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
 //                }
 //        }
 //    }
+
+    private void generateDummyData() {
+        int i = 1;
+        for (ThemeColor c : ThemeColor.values()) {
+            CountdownModel model = new CountdownModel().setTitle("Date " + i).setDate(new DateTime(2015, i, 25, 0, 0)).setDescription("Description No." + i).setThemeColor(c);
+            PreferencesManager.getInstance().saveCountdownModel(getActivity(), model);
+            i ++;
+        }
+    }
 }

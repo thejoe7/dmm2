@@ -1,20 +1,13 @@
 package com.joewuq.dmm.adapter;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.joewuq.dmm.CountdownCardViewHolder;
 import com.joewuq.dmm.CountdownModel;
 import com.joewuq.dmm.R;
-import com.joewuq.dmm.utility.Utility;
-
-import org.joda.time.DateTime;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,35 +15,7 @@ import java.util.Comparator;
 /**
  * Created by Joe Wu on 1/10/15.
  */
-public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownCardAdapter.ViewHolder> {
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        CardView cardView;
-        ImageView notificationIcon;
-        ImageView repeatIcon;
-        ViewGroup content;
-        ImageView imageBackground;
-        TextView titleText;
-        TextView countdownText;
-        TextView daysText;
-        TextView dateText;
-        TextView descriptionText;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            cardView = (CardView) itemView;
-            notificationIcon = (ImageView) itemView.findViewById(R.id.iv_card_icon_notification);
-            repeatIcon = (ImageView) itemView.findViewById(R.id.iv_card_icon_repeat);
-            content = (ViewGroup) itemView.findViewById(R.id.ll_card_content);
-            imageBackground = (ImageView) itemView.findViewById(R.id.iv_card_bg);
-            titleText = (TextView) itemView.findViewById(R.id.tv_card_title);
-            countdownText = (TextView) itemView.findViewById(R.id.tv_card_countdown);
-            daysText = (TextView) itemView.findViewById(R.id.tv_card_days);
-            dateText = (TextView) itemView.findViewById(R.id.tv_card_date);
-            descriptionText = (TextView) itemView.findViewById(R.id.tv_card_description);
-        }
-    }
+public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownCardViewHolder> {
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
@@ -67,66 +32,23 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CountdownCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_countdown_card, parent, false);
-        return new ViewHolder(view);
+        return new CountdownCardViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final CountdownCardViewHolder holder, final int position) {
         CountdownModel model = getItem(position);
-        int color = context.getResources().getColor(Utility.getThemeColorResourceId(model.getThemeColor()));
-        int colorDark = context.getResources().getColor(Utility.getThemeDarkColorResourceId(model.getThemeColor()));
-        holder.cardView.setCardBackgroundColor(color);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.bind(context, model);
+        holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(holder.cardView, position);
+                    onItemClickListener.onItemClick(holder.getCardView(), position);
                 }
             }
         });
-
-        // disable background image and darkening for now
-        holder.imageBackground.setImageResource(0);
-        holder.imageBackground.setVisibility(View.GONE);
-        holder.content.setBackgroundColor(context.getResources().getColor(R.color.transparent));
-
-        // icon colors
-        ColorStateList disabledStateList = new ColorStateList(new int[][] {new int[] {}}, new int[] {colorDark});
-        ColorStateList enabledStateList = new ColorStateList(new int[][] {new int[] {}}, new int[] {context.getResources().getColor(R.color.text_light_secondary)});
-
-        // always hide notification icon for now
-        holder.notificationIcon.setImageTintList(disabledStateList);
-        holder.notificationIcon.setVisibility(View.GONE);
-
-        if (model.getRepeatMode() == CountdownModel.RepeatMode.NONE) {
-            holder.repeatIcon.setImageResource(R.drawable.ic_repeat_off_white_18dp);
-            holder.repeatIcon.setImageTintList(disabledStateList);
-        } else {
-            holder.repeatIcon.setImageResource(R.drawable.ic_repeat_on_white_18dp);
-            holder.repeatIcon.setImageTintList(enabledStateList);
-        }
-
-        // setup texts
-        DateTime nextDate = model.getNextDate();
-        Integer daysDiff = model.getDaysDiff(DateTime.now().withTime(0, 0, 0, 0));
-
-        holder.titleText.setText(model.getTitle());
-        holder.dateText.setText(nextDate.toString());
-
-        if (daysDiff < 0) {
-            holder.countdownText.setText(String.valueOf(daysDiff));
-            holder.daysText.setText(context.getString(R.string.card_days_past));
-        } else {
-            holder.countdownText.setText(String.valueOf(daysDiff));
-            holder.daysText.setText(context.getString(R.string.card_days_left));
-        }
-
-        // hide description is it's empty
-        String description = model.getDescription();
-        holder.descriptionText.setText(description);
-        holder.descriptionText.setVisibility(description.equals("") ? View.GONE : View.VISIBLE);
     }
 
     @Override

@@ -6,13 +6,18 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.widget.CardView;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
+import com.joewuq.dmm.CountdownCardViewHolder;
 import com.joewuq.dmm.CountdownModel;
 import com.joewuq.dmm.R;
-import com.joewuq.dmm.SerializationManager;
+import com.joewuq.dmm.manager.PreferencesManager;
+import com.joewuq.dmm.manager.SerializationManager;
+import com.joewuq.dmm.utility.ThemeColor;
+import com.joewuq.dmm.utility.Utility;
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by Joe Wu on 1/11/15.
@@ -22,37 +27,72 @@ public class DetailActivity extends ToolbarActivity {
     public static final String TAG = DetailActivity.class.getName();
 
     public static final String EXTRA_COUNTDOWN_UUID = "COUNTDOWN_UUID";
+    public static final String EXTRA_COUNTDOWN_MODEL = "COUNTDOWN_MODEL";
 
     private static final String STATE_COUNTDOWN_MODEL = "COUNTDOWN_MODEL";
 
     private CountdownModel model;
 
+    CardView cardView;
+    CountdownCardViewHolder cardViewHolder;
+
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getString(EXTRA_COUNTDOWN_UUID) != null) {
-            // TODO: load countdown model from preference
-            model = new CountdownModel();
-        } else if (savedInstanceState != null && savedInstanceState.getString(STATE_COUNTDOWN_MODEL) != null) {
+        if (savedInstanceState != null && savedInstanceState.getString(STATE_COUNTDOWN_MODEL) != null) {
+            // try recover countdown model from savedInstanceState first
             model = SerializationManager.getInstance().deserialize(savedInstanceState.getString(STATE_COUNTDOWN_MODEL), CountdownModel.class);
-        } else {
+        } else if (extras != null && extras.getString(EXTRA_COUNTDOWN_MODEL) != null) {
+            // try recover countdown model from the launching intent
+            model = SerializationManager.getInstance().deserialize(extras.getString(EXTRA_COUNTDOWN_MODEL), CountdownModel.class);
+        } else if (extras != null && extras.getString(EXTRA_COUNTDOWN_UUID) != null) {
+            // try load from preference
+            model = PreferencesManager.getInstance().loadCountdownModel(this, extras.getString(EXTRA_COUNTDOWN_UUID));
+        }
+        // if both have failed, create a new model
+        if (model == null) {
             model = new CountdownModel();
         }
+
+        // it's important to set the theme before any view is created
+        setTheme(Utility.getThemeResourceId(model.getThemeColor()));
+        super.onCreate(savedInstanceState);
 
         String title = model.getTitle().equals("") ? getResources().getString(R.string.app_name) : model.getTitle();
         // setup visual effects in Overview/Recent screen
         setTaskDescription(new ActivityManager.TaskDescription(
                 title,
                 BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_mono),
-                getResources().getColor(R.color.dmm_primary)
+                getResources().getColor(Utility.getThemeColorResourceId(model.getThemeColor()))
         ));
 
-        CardView cardView = (CardView) findViewById(R.id.card);
+        cardView = (CardView) findViewById(R.id.card);
         cardView.setClickable(false);
-        TextView description = (TextView) cardView.findViewById(R.id.tv_card_description);
-        description.setText(extras.getString(EXTRA_COUNTDOWN_UUID, "Empty UUID"));
+        cardViewHolder = new CountdownCardViewHolder(cardView);
+        cardViewHolder.bind(this, model);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveAndExit();
+            }
+        });
+
+        Button testButton = (Button) findViewById(R.id.btn_change_theme);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThemeColor newColor = ThemeColor.values()[Utility.randInt(0, ThemeColor.values().length - 1)];
+                while (newColor == model.getThemeColor()) {
+                    newColor = ThemeColor.values()[Utility.randInt(0, ThemeColor.values().length - 1)];
+                }
+                model.setThemeColor(newColor);
+                recreate();
+            }
+        });
     }
 
     @Override
@@ -61,11 +101,18 @@ public class DetailActivity extends ToolbarActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         String serializedCountdown = SerializationManager.getInstance().serialize(model);
         outState.putString(STATE_COUNTDOWN_MODEL, serializedCountdown);
-        outPersistentState.putString(STATE_COUNTDOWN_MODEL, serializedCountdown);
+    }
+
+    private void saveAndExit() {
+        finish();
+    }
+
+    private void deleteAndExit() {
+        finish();
     }
 
     public static void startActivity(Context context, CountdownModel model) {
@@ -90,6 +137,7 @@ public class DetailActivity extends ToolbarActivity {
         Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
         if (model != null) {
             intent.putExtra(EXTRA_COUNTDOWN_UUID, model.getUuid());
+            intent.putExtra(EXTRA_COUNTDOWN_MODEL, SerializationManager.getInstance().serialize(model));
         }
         context.startActivity(intent);
     }

@@ -4,10 +4,23 @@ import android.util.Log;
 
 import com.joewuq.dmm.R;
 
+import java.security.InvalidParameterException;
+import java.util.Random;
+
 /**
  * Created by Joe Wu on 1/10/15.
  */
 public class Utility {
+    public static int randInt(int min, int max) {
+        if (min > max) {
+            throw new InvalidParameterException("randInt(int, int) min must be smaller or equal to max.");
+        } else if (min == max) {
+            return min;
+        } else {
+            return new Random().nextInt((max - min) + 1) + min;
+        }
+    }
+
     public static int getThemeColorResourceId(ThemeColor themeColor) {
         switch (themeColor) {
             case RED:
@@ -59,6 +72,33 @@ public class Utility {
                 return R.color.theme_orange_dark;
             default:
                 return R.color.theme_default_dark;
+        }
+    }
+
+    public static int getThemeResourceId(ThemeColor themeColor) {
+        switch (themeColor) {
+            case RED:
+                return R.style.DmmTheme_Red;
+            case PINK:
+                return R.style.DmmTheme_Pink;
+            case PURPLE:
+                return R.style.DmmTheme_Purple;
+            case INDIGO:
+                return R.style.DmmTheme_Indigo;
+            case BLUE:
+                return R.style.DmmTheme_Blue;
+            case CYAN:
+                return R.style.DmmTheme_Cyan;
+            case TEAL:
+                return R.style.DmmTheme_Teal;
+            case GREEN:
+                return R.style.DmmTheme_Green;
+            case YELLOW:
+                return R.style.DmmTheme_Yellow;
+            case ORANGE:
+                return R.style.DmmTheme_Orange;
+            default:
+                return R.style.DmmTheme_Default;
         }
     }
 }

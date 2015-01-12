@@ -1,4 +1,4 @@
-package com.joewuq.dmm;
+package com.joewuq.dmm.manager;
 
 import android.util.Log;
 
