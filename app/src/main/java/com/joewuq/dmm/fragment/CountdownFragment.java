@@ -23,48 +23,25 @@ import org.joda.time.DateTime;
 /**
  * Created by Joe Wu on 12/30/14.
  */
-public class CountdownFragment extends Fragment implements CountdownCardAdapter.OnItemClickListener {
+public class CountdownFragment extends RecyclerListFragment implements CountdownCardAdapter.OnItemClickListener {
 
     public final static String TAG = CountdownFragment.class.getName();
 
-    private RecyclerView recyclerView;
     private CountdownCardAdapter cardAdapter;
-
-    @Override
+    private FloatingActionButton fab;
+    private int fabScrollThreshold;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_countdown, container, false);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.rv_list);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         cardAdapter = new CountdownCardAdapter(getActivity());
         cardAdapter.setOnItemClickListener(this);
         for (ThemeColor c : ThemeColor.values()) {
             cardAdapter.add(new CountdownModel().setTitle("Christmas Day").setDate(new DateTime(2015, 12, 25, 0, 0)).setDescription("Merry Christmas to You!").setThemeColor(c));
         }
-        recyclerView.setAdapter(cardAdapter);
+        recyclerListView.setAdapter(cardAdapter);
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                ActionBarActivity activity = (ActionBarActivity) getActivity();
-                int elevation_resource_id = newState == RecyclerView.SCROLL_STATE_IDLE ? R.dimen.toolbar_elevation_normal : R.dimen.toolbar_elevation_lifted;
-                activity.getSupportActionBar().setElevation(getResources().getDimension(elevation_resource_id));
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.attachToRecyclerView(recyclerView);
+        fabScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold) * 2;
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +50,24 @@ public class CountdownFragment extends Fragment implements CountdownCardAdapter.
         });
 
         return view;
+    }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.fragment_countdown;
+    }
+
+    @Override
+    protected void onRecyclerListScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onRecyclerListScrolled(recyclerView, dx, dy);
+        boolean isSignificant = Math.abs(dy) > fabScrollThreshold;
+        if (isSignificant) {
+            if (dy > 0) {
+                fab.hide();
+            } else {
+                fab.show();
+            }
+        }
     }
 
     @Override
