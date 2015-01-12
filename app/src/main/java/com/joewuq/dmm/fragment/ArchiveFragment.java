@@ -1,14 +1,16 @@
 package com.joewuq.dmm.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.joewuq.dmm.CountdownModel;
 import com.joewuq.dmm.R;
+import com.joewuq.dmm.activity.DetailActivity;
 import com.joewuq.dmm.adapter.CountdownCardAdapter;
 
 import org.joda.time.DateTime;
@@ -19,6 +21,8 @@ import org.joda.time.DateTime;
 public class ArchiveFragment extends RecyclerListFragment implements CountdownCardAdapter.OnItemClickListener {
 
     public static final String TAG = ArchiveFragment.class.getName();
+
+    private static final int REQUEST_SHOW_COUNTDOWN_DETAIL = 100;
 
     private CountdownCardAdapter cardAdapter;
 
@@ -40,10 +44,23 @@ public class ArchiveFragment extends RecyclerListFragment implements CountdownCa
 
     @Override
     public void onItemClick(View view, int position) {
-        showCountdownActivity(cardAdapter.getItem(position));
+        DetailActivity.startActivityForResult(getActivity(), REQUEST_SHOW_COUNTDOWN_DETAIL, cardAdapter.getItem(position));
     }
 
-    private void showCountdownActivity(CountdownModel model) {
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_SHOW_COUNTDOWN_DETAIL:
+                if (resultCode == Activity.RESULT_OK) {
+                    String uuid = data.getStringExtra(DetailActivity.EXTRA_COUNTDOWN_UUID);
+                    boolean deleted = data.getBooleanExtra(DetailActivity.EXTRA_COUNTDOWN_DELETED, true);
+                    if (deleted) {
+                        cardAdapter.remove(uuid);
+                    } else {
+                        cardAdapter.refresh(uuid);
+                    }
+                }
+        }
     }
 }

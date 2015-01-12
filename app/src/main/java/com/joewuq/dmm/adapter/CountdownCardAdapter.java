@@ -117,4 +117,30 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
         });
     }
 
+    public CountdownModel getItem(String uuid) {
+        for (CountdownModel o : objects) {
+            if (o.getUuid().equals(uuid)) {
+                return o;
+            }
+        }
+        return null;
+    }
+
+    public void remove(String uuid) {
+        CountdownModel object = getItem(uuid);
+        if (object != null) {
+            remove(object);
+        }
+    }
+
+    public void refresh(String uuid) {
+        CountdownModel model = getItem(uuid);
+        if (model == null) {
+            // TODO: add new model into this.objects
+        } else {
+            // TODO: update model from the preference
+        }
+        notifyDataSetChanged();
+    }
+
 }

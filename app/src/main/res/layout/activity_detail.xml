@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:title="@string/app_name"
+        android:elevation="@dimen/toolbar_elevation_normal"
+        android:background="@color/dmm_primary"
+        app:theme="@style/ThemeOverlay.DmmTheme.Toolbar"
+        app:popupTheme="@style/ThemeOverlay.DmmTheme.Toolbar.Popup" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentStart="true"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/card"
+                layout="@layout/view_countdown_card" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        app:fab_colorNormal="@color/dmm_primary"
+        app:fab_colorPressed="@color/dmm_primary"
+        app:fab_colorRipple="?attr/colorControlHighlight"
+        android:src="@drawable/ic_done_white_24dp" />
+
+</RelativeLayout>

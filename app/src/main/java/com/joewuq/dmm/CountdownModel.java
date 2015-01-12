@@ -166,4 +166,16 @@ public class CountdownModel {
         CountdownModel countdownModel = (CountdownModel) o;
         return this.uuid.equals(countdownModel.uuid);
     }
+
+    public CountdownModel updateFrom(CountdownModel o) {
+        if (o != this) {
+            title = o.title;
+            description = o.description;
+            themeColor = o.themeColor;
+            date = o.date;
+            repeatMode = o.repeatMode;
+            repeatInterval = o.repeatInterval;
+        }
+        return this;
+    }
 }

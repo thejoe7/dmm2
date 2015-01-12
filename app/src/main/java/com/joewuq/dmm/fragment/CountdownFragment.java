@@ -1,5 +1,7 @@
 package com.joewuq.dmm.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.joewuq.dmm.R;
 import com.joewuq.dmm.CountdownModel;
+import com.joewuq.dmm.activity.DetailActivity;
 import com.joewuq.dmm.adapter.CountdownCardAdapter;
 import com.joewuq.dmm.utility.ThemeColor;
 import com.melnykov.fab.FloatingActionButton;
@@ -26,6 +29,8 @@ import org.joda.time.DateTime;
 public class CountdownFragment extends RecyclerListFragment implements CountdownCardAdapter.OnItemClickListener {
 
     public static final String TAG = CountdownFragment.class.getName();
+
+    private static final int REQUEST_SHOW_COUNTDOWN_DETAIL = 100;
 
     private CountdownCardAdapter cardAdapter;
     private FloatingActionButton fab;
@@ -46,7 +51,7 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCountdownActivity(null);
+                DetailActivity.startActivityForResult(getActivity(), REQUEST_SHOW_COUNTDOWN_DETAIL, null);
             }
         });
 
@@ -73,10 +78,23 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
 
     @Override
     public void onItemClick(View view, int position) {
-        showCountdownActivity(cardAdapter.getItem(position));
+        DetailActivity.startActivityForResult(getActivity(), REQUEST_SHOW_COUNTDOWN_DETAIL, cardAdapter.getItem(position));
     }
 
-    private void showCountdownActivity(CountdownModel model) {
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_SHOW_COUNTDOWN_DETAIL:
+                if (resultCode == Activity.RESULT_OK) {
+                    String uuid = data.getStringExtra(DetailActivity.EXTRA_COUNTDOWN_UUID);
+                    boolean deleted = data.getBooleanExtra(DetailActivity.EXTRA_COUNTDOWN_DELETED, true);
+                    if (deleted) {
+                        cardAdapter.remove(uuid);
+                    } else {
+                        cardAdapter.refresh(uuid);
+                    }
+                }
+        }
     }
 }
