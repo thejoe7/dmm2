@@ -19,6 +19,7 @@ import org.joda.time.DateTime;
 public class CountdownCardViewHolder extends RecyclerView.ViewHolder {
 
     private CardView cardView;
+    private ViewGroup iconContainer;
     private ImageView notificationIcon;
     private ImageView repeatIcon;
     private ViewGroup content;
@@ -32,6 +33,7 @@ public class CountdownCardViewHolder extends RecyclerView.ViewHolder {
     public CountdownCardViewHolder(View itemView) {
         super(itemView);
         cardView = (CardView) itemView;
+        iconContainer = (ViewGroup) itemView.findViewById(R.id.ll_card_icon_container);
         notificationIcon = (ImageView) itemView.findViewById(R.id.iv_card_icon_notification);
         repeatIcon = (ImageView) itemView.findViewById(R.id.iv_card_icon_repeat);
         content = (ViewGroup) itemView.findViewById(R.id.ll_card_content);
@@ -43,7 +45,7 @@ public class CountdownCardViewHolder extends RecyclerView.ViewHolder {
         descriptionText = (TextView) itemView.findViewById(R.id.tv_card_description);
     }
 
-    public void bind(Context context, CountdownModel model) {
+    public void bind(Context context, CountdownModel model, boolean showIcons) {
         int color = context.getResources().getColor(Utility.getThemeColorResourceId(model.getThemeColor()));
         int colorDark = context.getResources().getColor(Utility.getThemeDarkColorResourceId(model.getThemeColor()));
         cardView.setCardBackgroundColor(color);
@@ -69,6 +71,7 @@ public class CountdownCardViewHolder extends RecyclerView.ViewHolder {
             repeatIcon.setImageResource(R.drawable.ic_repeat_on_white_18dp);
             repeatIcon.setImageTintList(enabledStateList);
         }
+        iconContainer.setVisibility(showIcons ? View.VISIBLE : View.GONE);
 
         // setup texts
         DateTime nextDate = model.getNextDate();

@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -65,18 +67,14 @@ public class DetailActivity extends ToolbarActivity {
         setTheme(Utility.getThemeResourceId(model.getThemeColor()));
         super.onCreate(savedInstanceState);
 
-        String title = model.getTitle().equals("") ? getResources().getString(R.string.app_name) : model.getTitle();
+
         // setup visual effects in Overview/Recent screen
-        setTaskDescription(new ActivityManager.TaskDescription(
-                title,
-                BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_mono),
-                getResources().getColor(Utility.getThemeColorResourceId(model.getThemeColor()))
-        ));
+        setTaskDescription(createTaskDescription(this, model));
 
         cardView = (CardView) findViewById(R.id.card);
         cardView.setClickable(false);
         cardViewHolder = new CountdownCardViewHolder(cardView);
-        cardViewHolder.bind(this, model);
+        cardViewHolder.bind(this, model, false);
 
         revealColorView = (RevealColorView) findViewById(R.id.rcv_reveal);
 
@@ -121,6 +119,31 @@ public class DetailActivity extends ToolbarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_about:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         String serializedCountdown = SerializationManager.getInstance().serialize(model);
@@ -162,10 +185,12 @@ public class DetailActivity extends ToolbarActivity {
             public void onAnimationEnd(Animator animation) {
                 // recreate activity after the animation
                 getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+
+                finishAndRemoveTask();
+
                 startActivity(intent);
                 overridePendingTransition(0, 0);
-                finish();
-                overridePendingTransition(0, 0);
+
             }
 
             @Override
@@ -207,6 +232,15 @@ public class DetailActivity extends ToolbarActivity {
             }
             return null;
         }
+    }
+
+    private static ActivityManager.TaskDescription createTaskDescription(Context context, CountdownModel model) {
+        String title = model.getTitle().equals("") ? context.getResources().getString(R.string.app_name) : model.getTitle();
+        return new ActivityManager.TaskDescription(
+                title,
+                BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_mono),
+                context.getResources().getColor(Utility.getThemeColorResourceId(model.getThemeColor()))
+        );
     }
 
 }

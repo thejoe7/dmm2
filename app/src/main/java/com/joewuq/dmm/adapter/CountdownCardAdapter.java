@@ -40,7 +40,7 @@ public class CountdownCardAdapter extends BaseAdapter<CountdownModel, CountdownC
     @Override
     public void onBindViewHolder(final CountdownCardViewHolder holder, final int position) {
         CountdownModel model = getItem(position);
-        holder.bind(context, model);
+        holder.bind(context, model, true);
         holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
