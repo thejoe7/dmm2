@@ -124,22 +124,12 @@ public class DetailActivity extends ToolbarActivity {
 
     private void saveAndExit() {
         // TODO: save countdown model
-        ActivityManager.AppTask task = getRunningTask(this, model.getUuid());
-        if (task != null) {
-            task.finishAndRemoveTask();
-        } else {
-            finish();
-        }
+        finishAndRemoveTask();
     }
 
     private void deleteAndExit() {
         // TODO: delete countdown model
-        ActivityManager.AppTask task = getRunningTask(this, model.getUuid());
-        if (task != null) {
-            task.finishAndRemoveTask();
-        } else {
-            finish();
-        }
+        finishAndRemoveTask();
     }
 
     public static void startActivity(Context context, CountdownModel model) {
