@@ -1,5 +1,8 @@
 package com.joewuq.dmm.fragment;
 
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 
 import com.joewuq.dmm.R;
 
@@ -22,6 +26,8 @@ public abstract class RecyclerListFragment extends Fragment {
     public static final String TAG = RecyclerListFragment.class.getName();
 
     protected RecyclerView recyclerListView;
+
+    private TimeInterpolator interpolator = new AccelerateInterpolator();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,12 +45,21 @@ public abstract class RecyclerListFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 // set on scroll elevation lifting
-                if (getActivity() instanceof ActionBarActivity) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getActivity() instanceof ActionBarActivity) {
                     ActionBarActivity activity = (ActionBarActivity) getActivity();
-                    int elevation_resource_id = newState == RecyclerView.SCROLL_STATE_IDLE ? R.dimen.toolbar_elevation_normal : R.dimen.toolbar_elevation_lifted;
                     ActionBar bar = activity.getSupportActionBar();
                     if (bar != null) {
-                        bar.setElevation(getResources().getDimension(elevation_resource_id));
+                        float normal_elevation = getResources().getDimension(R.dimen.toolbar_elevation_normal);
+                        float lifted_elevation = getResources().getDimension(R.dimen.toolbar_elevation_lifted);
+                        float from_elevation = newState == RecyclerView.SCROLL_STATE_IDLE ? lifted_elevation : normal_elevation;
+                        float to_elevation = newState == RecyclerView.SCROLL_STATE_IDLE ? normal_elevation : lifted_elevation;
+
+                        if (bar.getElevation() != to_elevation) {
+                            ObjectAnimator elevation = ObjectAnimator.ofFloat(bar, "elevation", from_elevation, to_elevation)
+                                    .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+                            elevation.setInterpolator(interpolator);
+                            elevation.start();
+                        }
                     }
                 }
 
