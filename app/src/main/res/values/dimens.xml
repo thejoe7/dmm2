@@ -23,4 +23,7 @@
     <dimen name="button_elevation_normal">2dp</dimen>
     <dimen name="button_elevation_lifted">4dp</dimen>
 
+    <dimen name="fab_elevation_lollipop_normal">8dp</dimen>
+    <dimen name="fab_elevation_lollipop_lifted">16dp</dimen>
+
 </resources>

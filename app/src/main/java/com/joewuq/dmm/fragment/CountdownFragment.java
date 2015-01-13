@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +14,7 @@ import com.joewuq.dmm.activity.DetailActivity;
 import com.joewuq.dmm.adapter.CountdownCardAdapter;
 import com.joewuq.dmm.manager.PreferencesManager;
 import com.joewuq.dmm.utility.ThemeColor;
+import com.joewuq.dmm.utility.Utility;
 import com.melnykov.fab.FloatingActionButton;
 
 import org.joda.time.DateTime;
@@ -44,6 +46,20 @@ public class CountdownFragment extends RecyclerListFragment implements Countdown
             @Override
             public void onClick(View v) {
                 DetailActivity.startActivity(getActivity(), null);
+            }
+        });
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int action = event.getAction();
+                float normal_elevation = getResources().getDimension(R.dimen.fab_elevation_lollipop_normal);
+                float lifted_elevation = getResources().getDimension(R.dimen.fab_elevation_lollipop_lifted);
+                float from_elevation = action == MotionEvent.ACTION_UP ? lifted_elevation : normal_elevation;
+                float to_elevation = action == MotionEvent.ACTION_UP ? normal_elevation : lifted_elevation;
+                if (v.getElevation() != to_elevation) {
+                    Utility.getElevationAnimator(getActivity(), v, from_elevation, to_elevation, interpolator).start();
+                }
+                return false;
             }
         });
 

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 
 import com.joewuq.dmm.R;
+import com.joewuq.dmm.utility.Utility;
 
 /**
  * Created by Joe Wu on 1/11/15.
@@ -27,7 +28,7 @@ public abstract class RecyclerListFragment extends Fragment {
 
     protected RecyclerView recyclerListView;
 
-    private TimeInterpolator interpolator = new AccelerateInterpolator();
+    protected TimeInterpolator interpolator = new AccelerateInterpolator();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,10 +56,7 @@ public abstract class RecyclerListFragment extends Fragment {
                         float to_elevation = newState == RecyclerView.SCROLL_STATE_IDLE ? normal_elevation : lifted_elevation;
 
                         if (bar.getElevation() != to_elevation) {
-                            ObjectAnimator elevation = ObjectAnimator.ofFloat(bar, "elevation", from_elevation, to_elevation)
-                                    .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
-                            elevation.setInterpolator(interpolator);
-                            elevation.start();
+                            Utility.getElevationAnimator(getActivity(), bar, from_elevation, to_elevation, interpolator).start();
                         }
                     }
                 }
@@ -85,4 +83,5 @@ public abstract class RecyclerListFragment extends Fragment {
     protected void onRecyclerListScrolled(RecyclerView recyclerView, int dx, int dy) {
 
     }
+
 }

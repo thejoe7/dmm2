@@ -1,6 +1,10 @@
 package com.joewuq.dmm.utility;
 
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
+import android.content.Context;
 import android.util.Log;
+import android.view.animation.AccelerateInterpolator;
 
 import com.joewuq.dmm.R;
 
@@ -19,6 +23,20 @@ public class Utility {
         } else {
             return new Random().nextInt((max - min) + 1) + min;
         }
+    }
+
+    public static ObjectAnimator getElevationAnimator(Context context, Object object, float from_elevation, float to_elevation) {
+        return getElevationAnimator(context, object, from_elevation, to_elevation, null);
+    }
+
+    public static ObjectAnimator getElevationAnimator(Context context, Object object, float from_elevation, float to_elevation, TimeInterpolator interpolator) {
+        if (interpolator == null) {
+            interpolator = new AccelerateInterpolator();
+        }
+        ObjectAnimator elevation = ObjectAnimator.ofFloat(object, "elevation", from_elevation, to_elevation)
+                .setDuration(context.getResources().getInteger(android.R.integer.config_shortAnimTime));
+        elevation.setInterpolator(interpolator);
+        return elevation;
     }
 
     public static int getThemeColorResourceId(ThemeColor themeColor) {

@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -78,6 +79,20 @@ public class DetailActivity extends ToolbarActivity {
             @Override
             public void onClick(View v) {
                 saveAndExit();
+            }
+        });
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int action = event.getAction();
+                float normal_elevation = getResources().getDimension(R.dimen.fab_elevation_lollipop_normal);
+                float lifted_elevation = getResources().getDimension(R.dimen.fab_elevation_lollipop_lifted);
+                float from_elevation = action == MotionEvent.ACTION_UP ? lifted_elevation : normal_elevation;
+                float to_elevation = action == MotionEvent.ACTION_UP ? normal_elevation : lifted_elevation;
+                if (v.getElevation() != to_elevation) {
+                    Utility.getElevationAnimator(DetailActivity.this, v, from_elevation, to_elevation).start();
+                }
+                return false;
             }
         });
 
