@@ -58,4 +58,12 @@
         app:fab_colorRipple="?attr/colorControlHighlight"
         android:src="@drawable/ic_done_white_24dp" />
 
+    <at.markushi.ui.RevealColorView
+        android:id="@+id/rcv_reveal"
+        android:clickable="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="20dp"
+        android:background="@color/transparent" />
+
 </RelativeLayout>

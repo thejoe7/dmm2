@@ -30,8 +30,8 @@
 
     <!-- Theme for ThemeColors -->
     <style name="DmmTheme.Detail" parent="DmmTheme">
-        <item name="android:colorPrimary">@color/theme_default</item>
-        <item name="android:colorPrimaryDark">@color/theme_default_dark</item>
+        <item name="android:colorPrimary">@color/white</item>
+        <item name="android:colorPrimaryDark">@color/white</item>
     </style>
 
     <style name="DmmTheme.Red" parent="DmmTheme.Detail">
@@ -82,6 +82,11 @@
     <style name="DmmTheme.Orange" parent="DmmTheme.Detail">
         <item name="android:colorPrimary">@color/theme_orange</item>
         <item name="android:colorPrimaryDark">@color/theme_orange_dark</item>
+    </style>
+
+    <style name="DmmTheme.Default" parent="DmmTheme">
+        <item name="android:colorPrimary">@color/theme_default</item>
+        <item name="android:colorPrimaryDark">@color/theme_default_dark</item>
     </style>
 
 

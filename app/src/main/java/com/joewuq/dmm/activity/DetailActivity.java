@@ -1,5 +1,6 @@
 package com.joewuq.dmm.activity;
 
+import android.animation.Animator;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import com.joewuq.dmm.utility.ThemeColor;
 import com.joewuq.dmm.utility.Utility;
 import com.melnykov.fab.FloatingActionButton;
 
+import at.markushi.ui.RevealColorView;
+
 /**
  * Created by Joe Wu on 1/11/15.
  */
@@ -36,6 +39,7 @@ public class DetailActivity extends ToolbarActivity {
 
     CardView cardView;
     CountdownCardViewHolder cardViewHolder;
+    RevealColorView revealColorView;
 
     private FloatingActionButton fab;
 
@@ -74,6 +78,8 @@ public class DetailActivity extends ToolbarActivity {
         cardViewHolder = new CountdownCardViewHolder(cardView);
         cardViewHolder.bind(this, model);
 
+        revealColorView = (RevealColorView) findViewById(R.id.rcv_reveal);
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +102,7 @@ public class DetailActivity extends ToolbarActivity {
             }
         });
 
-        Button testButton = (Button) findViewById(R.id.btn_change_theme);
+        final Button testButton = (Button) findViewById(R.id.btn_change_theme);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,8 +110,7 @@ public class DetailActivity extends ToolbarActivity {
                 while (newColor == model.getThemeColor()) {
                     newColor = ThemeColor.values()[Utility.randInt(0, ThemeColor.values().length - 1)];
                 }
-                model.setThemeColor(newColor);
-                recreate();
+                changeTheme(newColor, testButton);
             }
         });
     }
@@ -130,6 +135,45 @@ public class DetailActivity extends ToolbarActivity {
     private void deleteAndExit() {
         // TODO: delete countdown model
         finishAndRemoveTask();
+    }
+
+    private void changeTheme(ThemeColor themeColor, View v) {
+        model.setThemeColor(themeColor);
+
+        // get the original intent and store the current countdown object
+        final Intent intent = getIntent();
+        intent.putExtra(EXTRA_COUNTDOWN_MODEL, SerializationManager.getInstance().serialize(model));
+
+        // compute the origin of the reveal
+        final int[] p1 = new int[2];
+        revealColorView.getLocationOnScreen(p1);
+        final int[] p2 = new int[2];
+        v.getLocationOnScreen(p2);
+        int x = p2[0] - p1[0] + v.getWidth() / 2;
+        int y = p2[1] - p1[1] + v.getHeight() / 2;
+
+        // initiate reveal
+        revealColorView.reveal(x, y, getResources().getColor(R.color.white), 0, getResources().getInteger(android.R.integer.config_mediumAnimTime),
+                new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) { }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // recreate activity after the animation
+                getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                finish();
+                overridePendingTransition(0, 0);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) { }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) { }
+        });
     }
 
     public static void startActivity(Context context, CountdownModel model) {
